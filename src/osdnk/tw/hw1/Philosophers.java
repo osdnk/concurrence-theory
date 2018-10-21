@@ -113,14 +113,12 @@ class Philosophers {
         this.n = n;
     }
 
-    /* package */
-    synchronized void take() throws InterruptedException {
+    /* package */ synchronized void take() throws InterruptedException {
         sPhilosophers[((this.n - 1) % 5 + 5) % 5].semWait();
         sPhilosophers[this.n].semWait();
     }
 
-    /* package */
-    synchronized void put() {
+    /* package */ synchronized void put() {
         sPhilosophers[((this.n - 1) % 5 + 5) % 5].semSignal();
         sPhilosophers[this.n].semSignal();
     }
