@@ -75,7 +75,7 @@ public class HW1 {
 
     /* package */ synchronized void semSignal() {
         this.mFree = true;
-        this.notify();
+        this.notifyAll();
     }
 
     /* package */  synchronized void semWait() throws InterruptedException {
@@ -90,26 +90,50 @@ public class HW1 {
 //  Zaimplementowac semafor licznikowy (ogolny) za pomoca semaforow binarnych. Czy semafor binarny jest szczegolnym przypadkiem semafora ogolnego ?
 
 
-/* package */ class GeneralSemaphore {
+/* package */ class Semaphore{
+    private int mResource = 1;
+    private BinarySemaphore mSem = new BinarySemaphore();
 
-    private int n;
-    private final BinarySemaphore mBlockSem = new BinarySemaphore();
-
-    /* package */ GeneralSemaphore(int n) {
-        this.n = n;
+    /* package */ Semaphore (int resource) {
+        mResource = resource;
     }
 
-    /* package */ void semWait() throws InterruptedException {
-        if (n > 0) {
-            if ((--n) == 0) {
-                mBlockSem.semWait();
+    /* package */ synchronized void increment(){
+        while(isAvailable()){
+            try {
+                this.wait();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             }
         }
+        mResource++;
+
+        report();
+
+        this.notifyAll();
     }
 
-    /* package */ void semSignal() throws InterruptedException {
-        if((n++)==0){
-            mBlockSem.semSignal();
+    /* package */  synchronized void decrement(){
+        while(!isAvailable()){
+            try {
+                this.wait();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
+
+        mResource--;
+
+        report();
+
+        this.notifyAll();
+    }
+
+    /* package */  synchronized boolean isAvailable(){
+        return mResource > 0;
+    }
+
+    /* package */  synchronized void report(){
+        System.out.println("Resource value: " + mResource);
     }
 }
