@@ -91,7 +91,7 @@ public class HW1 {
 
 
 /* package */ class Semaphore{
-    private int mResource = 1;
+    private int mResource;
     private BinarySemaphore mSem = new BinarySemaphore();
 
     /* package */ Semaphore (int resource) {
