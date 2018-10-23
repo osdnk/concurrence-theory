@@ -86,6 +86,7 @@ public class HW1 {
     }
 }
 
+// Zad. 2 -- nie wystarczy, ponieważ wtedy dwa procesy czekające naraz ruszą
 
 //  Zaimplementowac semafor licznikowy (ogolny) za pomoca semaforow binarnych. Czy semafor binarny jest szczegolnym przypadkiem semafora ogolnego ?
 
@@ -101,7 +102,7 @@ public class HW1 {
     /* package */ synchronized void increment(){
         while(isAvailable()){
             try {
-                this.wait();
+                mSem.semWait();
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -110,13 +111,13 @@ public class HW1 {
 
         report();
 
-        this.notifyAll();
+        mSem.semSignal();
     }
 
     /* package */  synchronized void decrement(){
         while(!isAvailable()){
             try {
-                this.wait();
+                mSem.semWait();
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -126,7 +127,7 @@ public class HW1 {
 
         report();
 
-        this.notifyAll();
+        mSem.semSignal();
     }
 
     /* package */  synchronized boolean isAvailable(){
