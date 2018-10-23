@@ -20,11 +20,11 @@ public class HW1 {
     }
 
     /* package */ void startRace() {
-        //BinarySemaphore binarySemaphore = new BinarySemaphore();
-        GeneralSemaphore binarySemaphore = new GeneralSemaphore(1);
+        BinarySemaphore binarySemaphore = new BinarySemaphore();
+        //GeneralSemaphore binarySemaphore = new GeneralSemaphore(1);
         int n = 1410;
-        Racer t1 = new Racer(binarySemaphore, n, true);
-        Racer t2 = new Racer(binarySemaphore, n, false);
+        Racer t1 = new Racer(binarySemaphore, n, true, this);
+        Racer t2 = new Racer(binarySemaphore, n, false, this);
         t1.start();
         t2.start();
 
@@ -41,13 +41,13 @@ public class HW1 {
 
 /* package */ class Racer extends Thread {
     private final Race mRace;
-    private final GeneralSemaphore mBinarySemaphore;
+    private final BinarySemaphore mBinarySemaphore;
     private final int mAmount;
     private final boolean mIsInc;
 
-    /* package */ Racer(GeneralSemaphore binarySemaphore, int amount, boolean inc) {
+    /* package */ Racer(BinarySemaphore binarySemaphore, int amount, boolean inc, Race race) {
         mBinarySemaphore = binarySemaphore;
-        mRace = new Race();
+        mRace = race;
         mAmount = amount;
         mIsInc = inc;
     }
@@ -65,11 +65,7 @@ public class HW1 {
             } else {
                 mRace.decrementCounter();
             }
-            try {
-                mBinarySemaphore.semSignal();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+            mBinarySemaphore.semSignal();
         }
     }
 }
