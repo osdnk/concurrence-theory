@@ -86,9 +86,10 @@ public class HW1 {
     }
 }
 
-// Zad. 2 -- nie wystarczy, ponieważ wtedy dwa procesy czekające naraz ruszą
+// Zad. 2 -- nie wystarczy, ponieważ wtedy dwa procesy czekające naraz rusząją, co powoduje ich jednoczesny dostep do zasobó∑
+// Ekpseryment - zmienic linie 82
 
-//  Zaimplementowac semafor licznikowy (ogolny) za pomoca semaforow binarnych. Czy semafor binarny jest szczegolnym przypadkiem semafora ogolnego ?
+//  Zad. 3. zaimplementowac semafor licznikowy (ogolny) za pomoca semaforow binarnych. Czy semafor binarny jest szczegolnym przypadkiem semafora ogolnego ? tak - xem ogolny z jednym zaswobem
 
 
 /* package */ class Semaphore{
